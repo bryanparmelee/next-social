@@ -1,12 +1,12 @@
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { NextAuthOptions, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import jsonwebtoken from "jsonwebtoken";
 import { JWT } from "next-auth/jwt";
-import { transpileModule } from "typescript";
+
+import { createUser, getUser } from "./actions";
 import { SessionInterface, UserProfile } from "@/common.types";
-import { getUser, createUser } from "./actions";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -15,7 +15,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-
   jwt: {
     encode: ({ secret, token }) => {
       const encodedToken = jsonwebtoken.sign(
@@ -29,20 +28,19 @@ export const authOptions: NextAuthOptions = {
 
       return encodedToken;
     },
-    decode: ({ secret, token }) => {
+    decode: async ({ secret, token }) => {
       const decodedToken = jsonwebtoken.verify(token!, secret) as JWT;
-
       return decodedToken;
     },
   },
-
   theme: {
     colorScheme: "light",
-    logo: "/logo.png",
+    logo: "/logo.svg",
   },
   callbacks: {
     async session({ session }) {
       const email = session?.user?.email as string;
+
       try {
         const data = (await getUser(email)) as { user?: UserProfile };
 
@@ -54,8 +52,8 @@ export const authOptions: NextAuthOptions = {
           },
         };
         return newSession;
-      } catch (error) {
-        console.log("Error retrieving data", error);
+      } catch (error: any) {
+        console.error("Error retrieving user data: ", error.message);
         return session;
       }
     },
@@ -64,6 +62,7 @@ export const authOptions: NextAuthOptions = {
         const userExists = (await getUser(user?.email as string)) as {
           user?: UserProfile;
         };
+
         if (!userExists.user) {
           await createUser(
             user.name as string,
@@ -71,16 +70,18 @@ export const authOptions: NextAuthOptions = {
             user.image as string
           );
         }
+
         return true;
       } catch (error: any) {
-        console.log(error);
+        console.log("Error checking if user exists: ", error.message);
         return false;
       }
     },
   },
 };
 
-export async function getCurrentuser() {
+export async function getCurrentUser() {
   const session = (await getServerSession(authOptions)) as SessionInterface;
+
   return session;
 }

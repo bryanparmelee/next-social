@@ -7,7 +7,7 @@ const User = g
     email: g.string().unique(),
     avatarUrl: g.url(),
     description: g.string().length({ min: 2 }),
-    projects: g
+    posts: g
       .relation(() => Post)
       .list()
       .optional(),
