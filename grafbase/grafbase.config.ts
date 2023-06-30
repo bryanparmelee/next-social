@@ -6,7 +6,7 @@ const User = g
     name: g.string().length({ min: 2 }),
     email: g.string().unique(),
     avatarUrl: g.url(),
-    description: g.string().length({ min: 2 }),
+    description: g.string().length({ min: 2 }).optional(),
     posts: g
       .relation(() => Post)
       .list()
