@@ -30,7 +30,7 @@ const Post = g
 
 const jwt = auth.JWT({
   issuer: "grafbase",
-  secret: process.env.NEXTAUTH_SECRET!,
+  secret: g.env("NEXTAUTH_SECRET"),
 });
 
 export default config({

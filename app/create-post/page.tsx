@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 const CreatePost = async () => {
   const session = await getCurrentUser();
 
-  if (!session?.user) redirect("/");
+  // if (!session?.user) redirect("/");
   return (
     <Modal>
       <h3 className="modal-head-text">Create New Post</h3>

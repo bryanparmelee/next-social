@@ -25,10 +25,10 @@ export const authOptions: NextAuthOptions = {
         },
         secret
       );
-
       return encodedToken;
     },
     decode: async ({ secret, token }) => {
+      console.log({ token });
       const decodedToken = jsonwebtoken.verify(token!, secret) as JWT;
       return decodedToken;
     },
@@ -40,7 +40,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session }) {
       const email = session?.user?.email as string;
-
       try {
         const data = (await getUser(email)) as { user?: UserProfile };
 

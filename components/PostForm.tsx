@@ -1,9 +1,10 @@
 "use client";
 
 import { SessionInterface } from "@/common.types";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import FormField from "./FormField";
+import Button from "./Button";
 
 type Props = {
   type: string;
@@ -12,18 +13,44 @@ type Props = {
 
 const PostForm = ({ type, session }: Props) => {
   const handleFormSubmit = (e: React.FormEvent) => {};
-  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {};
-  const handleStateChange = (fieldName: string, value: string) => {};
 
-  const form = {
-    image: "",
-    title: "",
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    if (!file.type.includes("image")) {
+      return alert("Please upload an image file.");
+    }
+
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      const result = reader.result as string;
+
+      handleStateChange("image", result);
+    };
   };
 
+  const handleStateChange = (fieldName: string, value: string) => {
+    setForm((prev) => ({ ...prev, [fieldName]: value }));
+  };
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    image: "",
+  });
+
   return (
-    <form onSubmit={handleFormSubmit} className="flexStart form bg-white">
+    <form onSubmit={handleFormSubmit} className="flexStart form bg-white m-8">
       <div className="flexStart form_image-container">
-        <label htmlFor="poster" className="flexCenter form-image-label">
+        <label htmlFor="poster" className="flexCenter form_image-label">
           {!form.image && "Choose an image"}
         </label>
         <input
@@ -49,6 +76,20 @@ const PostForm = ({ type, session }: Props) => {
         placeholder="Next Social"
         setState={(value) => handleStateChange("title", value)}
       />
+      <FormField
+        title="Description"
+        state={form.description}
+        placeholder="What's on your mind?"
+        setState={(value) => handleStateChange("description", value)}
+      />
+      <div className="flexStart w-full">
+        <Button
+          title="Create"
+          type="submit"
+          leftIcon={isSubmitting ? "" : "/plus.svg"}
+          isSubmitting={isSubmitting}
+        />
+      </div>
     </form>
   );
 };

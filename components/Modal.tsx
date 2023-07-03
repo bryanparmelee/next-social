@@ -32,7 +32,7 @@ const Modal = ({ children }: { children: ReactNode }) => {
         <Image src="/close.svg" width={17} height={17} alt="Close" />
       </button>
 
-      <div ref={wrapper} className="modal-wrapper">
+      <div ref={wrapper} className="modal_wrapper">
         {children}
       </div>
     </div>
