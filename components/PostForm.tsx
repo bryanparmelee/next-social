@@ -5,6 +5,8 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import FormField from "./FormField";
 import Button from "./Button";
+import { createNewPost, fetchToken } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 
 type Props = {
   type: string;
@@ -12,14 +14,24 @@ type Props = {
 };
 
 const PostForm = ({ type, session }: Props) => {
-  const handleFormSubmit = (e: FormEvent) => {
+  const router = useRouter();
+  const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     setIsSubmitting(true);
+
+    const { token } = await fetchToken();
     try {
       if (type === "create") {
+        await createNewPost(form, session?.user?.id, token);
+
+        router.push("/");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {

@@ -9,13 +9,10 @@ export type FormState = {
   category: string;
 };
 
-export interface ProjectInterface {
+export interface PostInterface {
   title: string;
   description: string;
   image: string;
-  liveSiteUrl: string;
-  githubUrl: string;
-  category: string;
   id: string;
   createdBy: {
     name: string;
@@ -34,7 +31,7 @@ export interface UserProfile {
   githubUrl: string | null;
   linkedinUrl: string | null;
   projects: {
-    edges: { node: ProjectInterface }[];
+    edges: { node: PostInterface }[];
     pageInfo: {
       hasPreviousPage: boolean;
       hasNextPage: boolean;
@@ -53,11 +50,8 @@ export interface SessionInterface extends Session {
   };
 }
 
-export interface ProjectForm {
+export interface PostForm {
   title: string;
   description: string;
   image: string;
-  liveSiteUrl: string;
-  githubUrl: string;
-  category: string;
 }

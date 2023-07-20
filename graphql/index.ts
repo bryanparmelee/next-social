@@ -25,9 +25,9 @@ export const createUserMutation = `
 `;
 
 export const createPostMutation = `
-	mutation CreateProject($input: ProjectCreateInput!) {
-		projectCreate(input: $input) {
-			project {
+	mutation CreatePost($input: PostCreateInput!) {
+		postCreate(input: $input) {
+			post {
 				id
 				title
 				description
@@ -41,9 +41,9 @@ export const createPostMutation = `
 `;
 
 export const updatePostMutation = `
-	mutation UpdateProject($id: ID!, $input: ProjectUpdateInput!) {
-		projectUpdate(by: { id: $id }, input: $input) {
-			project {
+	mutation UpdatePost($id: ID!, $input: PostUpdateInput!) {
+		postUpdate(by: { id: $id }, input: $input) {
+			post {
 				id
 				title
 				description
@@ -57,8 +57,8 @@ export const updatePostMutation = `
 `;
 
 export const deletePostMutation = `
-  mutation DeleteProject($id: ID!) {
-    projectDelete(by: { id: $id }) {
+  mutation DeletePost($id: ID!) {
+    postDelete(by: { id: $id }) {
       deletedId
     }
   }
