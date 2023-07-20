@@ -1,7 +1,7 @@
 "use client";
 
 import { SessionInterface } from "@/common.types";
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import FormField from "./FormField";
 import Button from "./Button";
@@ -12,7 +12,15 @@ type Props = {
 };
 
 const PostForm = ({ type, session }: Props) => {
-  const handleFormSubmit = (e: React.FormEvent) => {};
+  const handleFormSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    setIsSubmitting(true);
+    try {
+      if (type === "create") {
+      }
+    } catch (error) {}
+  };
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -84,7 +92,11 @@ const PostForm = ({ type, session }: Props) => {
       />
       <div className="flexStart w-full">
         <Button
-          title="Create"
+          title={
+            isSubmitting
+              ? `${type === "create" ? "Creating" : "Editing"}`
+              : `${type === "create" ? "Create" : "Edit"}`
+          }
           type="submit"
           leftIcon={isSubmitting ? "" : "/plus.svg"}
           isSubmitting={isSubmitting}
