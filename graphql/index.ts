@@ -1,3 +1,30 @@
+export const postsQuery = `
+  query getPosts {
+    postCollection(first: 10) {
+		pageInfo {
+		  hasPreviousPage
+		  hasNextPage
+		  startCursor
+		  endCursor
+		}
+		edges {
+		  node {
+			title
+			description
+			image
+			id
+			createdBy {
+			  name
+			  email
+			  avatarUrl
+			  id
+			}
+		  }
+		}
+	  }
+  }
+`;
+
 export const getUserQuery = `
     query GetUser($email: String!) {
         user(by: { email: $email }) {

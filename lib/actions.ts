@@ -1,5 +1,5 @@
 import { GraphQLClient } from "graphql-request";
-import { createUserMutation, getUserQuery } from "@/graphql";
+import { createUserMutation, getUserQuery, postsQuery } from "@/graphql";
 import { PostForm } from "@/common.types";
 import { createPostMutation } from "@/graphql";
 
@@ -83,4 +83,10 @@ export const createNewPost = async (
     };
     return makeGraphQLRequest(createPostMutation, variables);
   }
+};
+
+export const fetchAllPosts = async (endcursor?: string | null) => {
+  client.setHeader("x-api-key", apiKey);
+
+  return makeGraphQLRequest(postsQuery, { endcursor });
 };
