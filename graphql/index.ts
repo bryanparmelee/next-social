@@ -1,27 +1,44 @@
 export const postsQuery = `
-  query getPosts {
-    postCollection(first: 10) {
-		pageInfo {
-		  hasPreviousPage
-		  hasNextPage
-		  startCursor
-		  endCursor
-		}
-		edges {
-		  node {
-			title
-			description
-			image
-			id
-			createdBy {
-			  name
-			  email
-			  avatarUrl
-			  id
-			}
-		  }
-		}
-	  }
+query getPosts($endcursor: String) {
+    postCollection(last: 8, after: $endcursor) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        node {
+          title
+          description
+          id
+          image
+          createdBy {
+            id
+            email
+            name
+            avatarUrl
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const getPostByIdQuery = `
+query GetPostById($id: ID!) {
+    post(by: { id: $id }) {
+      id
+      title
+      description
+      image          
+      createdBy {
+        id
+        name
+        email
+        avatarUrl
+      }
+    }
   }
 `;
 
