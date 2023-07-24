@@ -1,6 +1,7 @@
-import { PostInterface } from "@/common.types";
 import { fetchAllPosts } from "@/lib/actions";
 import PostCard from "@/components/PostCard";
+
+import { PostInterface } from "@/common.types";
 
 type PostSearch = {
   postSearch: {

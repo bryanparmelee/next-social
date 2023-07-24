@@ -90,13 +90,13 @@ export const createNewPost = async (
   }
 };
 
-export const fetchAllPosts = async (endcursor?: string | null) => {
+export const fetchAllPosts = (endcursor?: string | null) => {
   client.setHeader("x-api-key", apiKey);
 
-  return makeGraphQLRequest(postsQuery);
+  return makeGraphQLRequest(postsQuery, { endcursor });
 };
 
-export const getPostDetails = async (id: string) => {
+export const getPostDetails = (id: string) => {
   client.setHeader("x-api-key", apiKey);
   return makeGraphQLRequest(getPostByIdQuery, { id });
 };
