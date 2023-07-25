@@ -23,10 +23,29 @@ const Post = g
     description: g.string().length({ min: 3 }),
     image: g.url(),
     createdBy: g.relation(() => User),
+    comments: g.relation(() => Comment),
   })
   .auth((rules) => {
     rules.public().read(), rules.private().create().delete().update();
   });
+
+//@ts-ignore
+const Comment = g
+  .model("Comment", {
+    message: g.string().length({ min: 3 }),
+    post: g.relation(() => Post),
+    postedBy: g.relation(() => User),
+  })
+  .auth((rules) => {
+    rules.public().read(), rules.private().create().delete().update();
+  });
+
+//@ts-ignore
+const Reaction = g.model("Reaction", {
+  post: g.relation(() => Post),
+  likes: g.int(),
+  likedBy: g.relation(() => User),
+});
 
 const jwt = auth.JWT({
   issuer: "grafbase",
