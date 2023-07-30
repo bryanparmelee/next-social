@@ -1,6 +1,6 @@
 export const postsQuery = `
-query getPosts($endcursor: String) {
-    postCollection(last: 8, after: $endcursor) {
+query PostCollection {
+    postCollection(last: 8) {
       pageInfo {
         hasNextPage
         hasPreviousPage

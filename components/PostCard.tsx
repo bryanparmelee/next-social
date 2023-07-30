@@ -20,8 +20,8 @@ const PostCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
         <Image
           src={image}
           alt={title}
-          width={414}
-          height={314}
+          width={360}
+          height={280}
           className="w-full h-full object-cover rounded-2xl "
         />
         <div className="hidden group-hover:flex profile_card-title">

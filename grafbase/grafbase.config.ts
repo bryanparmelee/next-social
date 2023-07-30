@@ -34,7 +34,7 @@ const Post = g
     description: g.string().length({ min: 3 }),
     image: g.url(),
     createdBy: g.relation(() => User),
-    likes: g.relation(() => Reaction),
+    likes: g.relation(() => Reaction).optional(),
     comments: g.relation(Comment).optional(),
   })
   .auth((rules) => {

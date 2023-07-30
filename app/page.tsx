@@ -4,7 +4,7 @@ import PostCard from "@/components/PostCard";
 import { PostInterface } from "@/common.types";
 
 type PostSearch = {
-  postSearch: {
+  postCollection: {
     edges: { node: PostInterface }[];
     pageInfo: {
       hasPreviousPage: boolean;
@@ -18,8 +18,8 @@ type PostSearch = {
 const Home = async () => {
   const data = (await fetchAllPosts()) as PostSearch;
 
-  const postsToDisplay = data?.postSearch?.edges || [];
-
+  const postsToDisplay = data?.postCollection?.edges || [];
+  console.log("Here are the posts", postsToDisplay);
   if (postsToDisplay.length === 0) {
     return (
       <section className="flexStart flex-col paddings">

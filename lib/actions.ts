@@ -91,10 +91,10 @@ export const createNewPost = async (
   }
 };
 
-export const fetchAllPosts = (endcursor?: string | null) => {
+export const fetchAllPosts = () => {
   client.setHeader("x-api-key", apiKey);
 
-  return makeGraphQLRequest(postsQuery, { endcursor });
+  return makeGraphQLRequest(postsQuery);
 };
 
 export const getPostDetails = (id: string) => {
