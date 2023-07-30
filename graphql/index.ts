@@ -84,6 +84,24 @@ export const createPostMutation = `
 	}
 `;
 
+export const createCommentMutation = `
+  mutation CreateComment($input: CommentCreateInput!) {
+    commentCreate(input: $input) {
+      comment {
+        message
+        id
+        createdAt
+        postedBy {
+          name
+        }
+        post {
+          id
+        }
+      }
+    }
+  }
+`;
+
 export const updatePostMutation = `
 	mutation UpdatePost($id: ID!, $input: PostUpdateInput!) {
 		postUpdate(by: { id: $id }, input: $input) {

@@ -17,19 +17,6 @@ const User = g
   });
 
 //@ts-ignore
-const Post = g
-  .model("Post", {
-    title: g.string().length({ min: 3 }),
-    description: g.string().length({ min: 3 }),
-    image: g.url(),
-    createdBy: g.relation(() => User),
-    comments: g.relation(() => Comment),
-  })
-  .auth((rules) => {
-    rules.public().read(), rules.private().create().delete().update();
-  });
-
-//@ts-ignore
 const Comment = g
   .model("Comment", {
     message: g.string().length({ min: 3 }),
@@ -41,9 +28,23 @@ const Comment = g
   });
 
 //@ts-ignore
+const Post = g
+  .model("Post", {
+    title: g.string().length({ min: 3 }),
+    description: g.string().length({ min: 3 }),
+    image: g.url(),
+    createdBy: g.relation(() => User),
+    likes: g.relation(() => Reaction),
+    comments: g.relation(Comment).optional(),
+  })
+  .auth((rules) => {
+    rules.public().read(), rules.private().create().delete().update();
+  });
+
+//@ts-ignore
 const Reaction = g.model("Reaction", {
   post: g.relation(() => Post),
-  likes: g.int(),
+  likes: g.int().default(0),
   likedBy: g.relation(() => User),
 });
 

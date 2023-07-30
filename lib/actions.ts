@@ -4,6 +4,7 @@ import {
   getUserQuery,
   postsQuery,
   getPostByIdQuery,
+  createCommentMutation,
 } from "@/graphql";
 import { PostForm } from "@/common.types";
 import { createPostMutation } from "@/graphql";
@@ -99,4 +100,21 @@ export const fetchAllPosts = (endcursor?: string | null) => {
 export const getPostDetails = (id: string) => {
   client.setHeader("x-api-key", apiKey);
   return makeGraphQLRequest(getPostByIdQuery, { id });
+};
+
+export const createNewComment = async (
+  postId: string,
+  creatorId: string,
+  message: string
+) => {
+  const variables = {
+    id: postId,
+    input: {
+      message,
+      postedBy: {
+        link: creatorId,
+      },
+    },
+  };
+  return makeGraphQLRequest(createCommentMutation, variables);
 };
