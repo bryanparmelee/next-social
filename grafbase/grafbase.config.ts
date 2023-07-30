@@ -20,7 +20,7 @@ const User = g
 const Comment = g
   .model("Comment", {
     message: g.string().length({ min: 3 }),
-    post: g.relation(() => Post),
+    postId: g.relation(() => Post),
     postedBy: g.relation(() => User),
   })
   .auth((rules) => {

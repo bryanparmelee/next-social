@@ -103,14 +103,18 @@ export const getPostDetails = (id: string) => {
 };
 
 export const createNewComment = async (
+  message: string,
   postId: string,
   creatorId: string,
-  message: string
+  token: string
 ) => {
+  client.setHeader("Authorization", `Bearer ${token}`);
   const variables = {
-    id: postId,
     input: {
       message,
+      postId: {
+        link: postId,
+      },
       postedBy: {
         link: creatorId,
       },

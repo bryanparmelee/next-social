@@ -1,6 +1,7 @@
 import { fetchAllPosts } from "@/lib/actions";
+import { getCurrentUser } from "@/lib/session";
 import PostCard from "@/components/PostCard";
-
+import CommentForm from "@/components/CommentForm";
 import { PostInterface } from "@/common.types";
 
 type PostSearch = {
@@ -17,6 +18,7 @@ type PostSearch = {
 
 const Home = async () => {
   const data = (await fetchAllPosts()) as PostSearch;
+  const session = await getCurrentUser();
 
   const postsToDisplay = data?.postCollection?.edges || [];
   console.log("Here are the posts", postsToDisplay);
@@ -34,15 +36,18 @@ const Home = async () => {
 
       <section className="projects-grid">
         {postsToDisplay.map(({ node }: { node: PostInterface }) => (
-          <PostCard
-            key={node?.id}
-            id={node?.id}
-            image={node?.image}
-            title={node?.title}
-            name={node?.createdBy?.name}
-            avatarUrl={node?.createdBy?.avatarUrl}
-            userId={node?.createdBy?.id}
-          />
+          <>
+            <PostCard
+              key={node?.id}
+              id={node?.id}
+              image={node?.image}
+              title={node?.title}
+              name={node?.createdBy?.name}
+              avatarUrl={node?.createdBy?.avatarUrl}
+              userId={node?.createdBy?.id}
+            />
+            <CommentForm postId={node?.id} session={session} />
+          </>
         ))}
       </section>
 

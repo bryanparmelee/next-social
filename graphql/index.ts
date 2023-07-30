@@ -88,13 +88,13 @@ export const createCommentMutation = `
   mutation CreateComment($input: CommentCreateInput!) {
     commentCreate(input: $input) {
       comment {
-        message
         id
+        message
         createdAt
         postedBy {
           name
         }
-        post {
+        postId {
           id
         }
       }
