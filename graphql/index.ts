@@ -42,6 +42,21 @@ query GetPostById($id: ID!) {
   }
 `;
 
+export const getCommentsByPostId = `
+  query GetCommentsById($id: ID!) {
+    comment(by: { id: $id }) {
+      id
+      message
+      createdAt
+      updatedAt
+      postedBy {
+        name
+        avatarUrl
+      }
+    }
+  }
+`;
+
 export const getUserQuery = `
     query GetUser($email: String!) {
         user(by: { email: $email }) {

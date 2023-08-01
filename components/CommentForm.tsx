@@ -15,7 +15,7 @@ const CommentForm = ({ postId, session }: Props) => {
   const router = useRouter();
   const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+    if (!session) alert("Must be logged in to comment.");
     const { token } = await fetchToken();
     try {
       await createNewComment(message, postId, session?.user?.id, token);
